@@ -30,6 +30,7 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
       <div class="loadmore" v-show="loading">加载更多</div>
     </div>
@@ -95,7 +96,7 @@ export default {
   }
   .product {
     width: 50%;
-    height: calc(50vw * 1.5);
+    height: calc(50vw * 1.7);
     border: 2px solid #eee;
     box-sizing: border-box;
   }
@@ -107,12 +108,15 @@ export default {
   }
   .product .pic img {
     width: 100%;
+    height: 100%;
   }
 
   .desc {
     font-size: 11px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
   }
-  
   .desc .title {
     font-size: 13px;
     font-weight: bold;
@@ -130,7 +134,7 @@ export default {
 
   .coupon-number {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
   }
 
@@ -141,16 +145,16 @@ export default {
   }
 
   .coupon-red {
-    font-size: 15px;
-    font-weight: bold;
-    font-style: italic;
+    /* font-size: 15px; */
+    /* font-weight: bold;
+    font-style: italic; */
     color: red;
   }
 
   .coupon-gay {
-    font-size: 15px;
-    font-weight: bold;
-    font-style: italic;
+    /* font-size: 15px; */
+    /* font-weight: bold;
+    font-style: italic; */
     color: gray;
   }
   .coupon-valitime {
