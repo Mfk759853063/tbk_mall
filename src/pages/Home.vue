@@ -9,23 +9,27 @@
           <div class="pic">
             <img :src="item.pict_url" alt="">
           </div>
-          <div class="title">{{ item.title }}</div>
-          <div class="coupon">
-            <div class="coupon-title">{{item.coupon_info}}</div>
+          <div class="desc">
+            <div class="title">{{ item.title }}</div>
             <div class="coupon-info">
-                <div class="coupon-special">
-                    <div>券还剩</div>
-                    <span class="coupon-number">{{item.coupon_remain_count}}</span>
-                    <div>张</div>
-                </div>
-                <div>
-                  <span>共</span>
-                  <span class="coupon-total">{{item.coupon_total_count}}</span>
-                  <span>张</span>
-                </div>
+              <div class="coupon-title">{{item.coupon_info}}</div>
+              <div class="coupon-number">
+                  <div class="coupon-remain">
+                      <div>券还剩</div>
+                      <span class="coupon-red">{{item.coupon_remain_count}}</span>
+                      <div>张</div>
+                  </div>
+                  <div class="coupon-total">
+                      <span>共</span>
+                      <span class="coupon-gay">{{item.coupon_total_count}}</span>
+                      <span>张</span>
+                  </div>
+              </div>
+              <div class="coupon-valitime">
+                {{`有效期:${item.coupon_end_time}`}}
+              </div>
             </div>
           </div>
-        </div>
       </div>
       <div class="loadmore" v-show="loading">加载更多</div>
     </div>
@@ -105,7 +109,11 @@ export default {
     width: 100%;
   }
 
-  .product .title {
+  .desc {
+    font-size: 11px;
+  }
+  
+  .desc .title {
     font-size: 13px;
     font-weight: bold;
     overflow: hidden;
@@ -115,7 +123,40 @@ export default {
     -webkit-box-orient: vertical;
   }
 
-  .coupon {
+  .coupon-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coupon-number {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .coupon-remain, .coupon-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .coupon-red {
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+    color: red;
+  }
+
+  .coupon-gay {
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+    color: gray;
+  }
+  .coupon-valitime {
+    color: red;
+  }
+  /* .coupon {
     display: flex;
     flex-direction: column;
     font-size: 11px;
@@ -145,5 +186,5 @@ export default {
     font-weight: bold;
     font-style: italic;
     color: red;
-  }
+  } */
 </style>
