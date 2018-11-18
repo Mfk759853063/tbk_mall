@@ -64,7 +64,7 @@ export default {
       this.loading = true;
       const params = {
         pageNumber: this.pageNumber,
-        pageSize: 5,
+        pageSize: 20,
       };
       const res = await TbkApi.getRecommendList(params);
       this.loading = false;

@@ -58,7 +58,12 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
+    proxyTable: {
+      '/recommends': { 
+        target: 'http://tbk.kwepvbn.com:8889',
+        changeOrigin: true,
+      },
+    },
     /**
      * Source Maps
      */
