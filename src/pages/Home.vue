@@ -3,16 +3,25 @@
     <div class="header">
       <mt-header fixed title="淘淘淘"></mt-header>
     </div>
-    <div class="list-container">
+    <div class="search">
+      <mt-field  style="margin: 0% 10% 0% 10%;" placeholder="请在此粘贴你要分享的宝贝链接" v-model="searchValue" @blur.native.capture="checkSearchLink"></mt-field>
+    </div>
+    <div class="list-container"
+          v-infinite-scroll="loadMore"
+           infinite-scroll-disabled="loading"
+           infinite-scroll-distance="10">
       <div class="list">
-        <div class="product" v-for="item in list" v-bind:key="item.num_iid">
+        <div class="product" @click="handleProduct(item)" v-for="item in list" v-bind:key="item.pict_url">
           <div class="pic">
             <img :src="item.pict_url" alt="">
           </div>
           <div class="desc">
             <div class="title">{{ item.title }}</div>
             <div class="coupon-info">
-              <div class="coupon-title">{{item.coupon_info}}</div>
+              <div class="price redTitle">
+                <div>{{`￥${item.zk_final_price}`}}</div>
+                <div class="coupon-title">{{item.coupon_info}}</div>
+              </div>
               <div class="coupon-number">
                   <div class="coupon-remain">
                       <div>券还剩</div>
@@ -25,7 +34,7 @@
                       <span>张</span>
                   </div>
               </div>
-              <div class="coupon-valitime">
+              <div class="coupon-valitime redTitle">
                 {{`有效期:${item.coupon_end_time}`}}
               </div>
             </div>
@@ -44,7 +53,7 @@ import TbkApi from '@/api/tbk';
 export default {
   data() {
     return {
-      pageNumber: 1,
+      pageNumber: 0,
       loading: false,
       searchValue: '',
       list: [],
@@ -54,24 +63,37 @@ export default {
     async loadList() {
       this.loading = true;
       const params = {
-        pageNubmer: this.pageNubmer,
-        pageSize: 10,
+        pageNumber: this.pageNumber,
+        pageSize: 5,
       };
       const res = await TbkApi.getRecommendList(params);
+      this.loading = false;
       const tmpList = res.tbk_dg_item_coupon_get_response.results.tbk_coupon;
       if (tmpList && tmpList.length) {
-        this.list = tmpList;
+        this.list = this.list.concat(tmpList);
       }
-      this.loading = false;
+    },
+    loadMore() {
+      this.pageNumber = this.pageNumber + 1;
+      this.loadList();
+    },
+    checkSearchLink() {
+      console.log('搜索的内容是', this.searchValue);
+    },
+    handleProduct(item) {
     },
   },
   beforeMount() {
-    this.loadList();
+    // this.loadList();
   },
 };
 </script>
 
 <style scoped>
+
+  .redTitle {
+    color: red;
+  }
 
   .container {
     height: 100%;
@@ -81,8 +103,13 @@ export default {
     height: 40px;
   }
 
+  .search {
+    width: 100%;
+    height: 48px;
+  }
+
   .list-container {
-    height: calc(100% - 40px);
+    height: calc(100% - 40px - 48px);
     overflow: auto;
   }
 
@@ -96,14 +123,14 @@ export default {
   }
   .product {
     width: 50%;
-    height: calc(50vw * 1.7);
+    /* height: calc(50vw * 1.7); */
     border: 2px solid #eee;
     box-sizing: border-box;
   }
 
   .product .pic {
     width: 100%;
-    height: 70%;
+    height: 200px;
     overflow: hidden;
   }
   .product .pic img {
@@ -132,6 +159,12 @@ export default {
     flex-direction: column;
   }
 
+  .price {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .coupon-number {
     display: flex;
     flex-direction: row;
@@ -144,21 +177,11 @@ export default {
     justify-content: space-between;
   }
 
-  .coupon-red {
-    /* font-size: 15px; */
-    /* font-weight: bold;
-    font-style: italic; */
-    color: red;
-  }
-
   .coupon-gay {
     /* font-size: 15px; */
     /* font-weight: bold;
     font-style: italic; */
     color: gray;
-  }
-  .coupon-valitime {
-    color: red;
   }
   /* .coupon {
     display: flex;
@@ -192,3 +215,4 @@ export default {
     color: red;
   } */
 </style>
+
