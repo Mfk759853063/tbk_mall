@@ -25,6 +25,7 @@ module.exports = {
   },
   // add your custom rules here
   rules: {
+    'no-alert': 0,
     'max-len': 0,
     'no-underscore-dangle': 0,
     'object-curly-newline': 0,
