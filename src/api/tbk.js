@@ -6,7 +6,7 @@ const Tbk = {
       pageNumber: 1,
       pageSize: 20,
     }, data);
-    return axios.get('recommends', { params });
+    return axios.get('tbk/recommends', { params });
   },
 };
 

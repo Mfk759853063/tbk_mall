@@ -11,7 +11,7 @@
            infinite-scroll-disabled="loading"
            infinite-scroll-distance="10">
       <div class="list">
-        <div class="product" @click="handleProduct(item)" v-for="item in list" v-bind:key="item.pict_url">
+        <div class="product" data-clipboard-text="copyValue" @click="handleProduct(item)" v-for="item in list" v-bind:key="item.pict_url">
           <div class="pic">
             <img :src="item.pict_url" alt="">
           </div>
@@ -49,6 +49,7 @@
 <script>
 
 import TbkApi from '@/api/tbk';
+import Clipboard from 'clipboard';
 
 export default {
   data() {
@@ -56,6 +57,7 @@ export default {
       pageNumber: 0,
       loading: false,
       searchValue: '',
+      copyValue: '',
       list: [],
     };
   },
@@ -81,6 +83,19 @@ export default {
       console.log('搜索的内容是', this.searchValue);
     },
     handleProduct(item) {
+      this.copyValue = item.coupon_click_url;
+      const clipboard = new Clipboard('.product', {
+        text: trigger => this.copyValue,
+      });
+      clipboard.on('success', (e) => {
+        window.location.href = this.copyValue;
+        clipboard.destroy();
+      });
+      clipboard.on('error', (e) => {
+        alert('该浏览器不支持自动复制');
+        window.location.href = this.copyValue;
+        clipboard.destroy();
+      });
     },
   },
   beforeMount() {
@@ -111,6 +126,7 @@ export default {
   .list-container {
     height: calc(100% - 40px - 48px);
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .list {

@@ -21,8 +21,8 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
     proxyTable: {
-      '/recommends': { 
-        target: 'http://tbk.kwepvbn.com:8889',
+      '/tbk': { 
+        target: 'http://api.kwepvbn.com:8889',
         changeOrigin: true,
       },
     },
@@ -59,8 +59,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/': { 
-        target: 'http://api.kwepvbn.com/tbk/',
+      '/tbk': { 
+        target: 'http://api.kwepvbn.com/tbk',
         changeOrigin: true,
       },
     },
