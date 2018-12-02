@@ -59,8 +59,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/recommends': { 
-        target: 'http://tbk.kwepvbn.com:8889',
+      '/': { 
+        target: 'http://api.kwepvbn.com/tbk/',
         changeOrigin: true,
       },
     },

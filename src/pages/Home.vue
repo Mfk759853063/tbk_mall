@@ -3,9 +3,9 @@
     <div class="header">
       <mt-header fixed title="淘淘淘"></mt-header>
     </div>
-    <div class="search">
+    <!-- <div class="search">
       <mt-field  style="margin: 0% 10% 0% 10%;" placeholder="请在此粘贴你要分享的宝贝链接" v-model="searchValue" @blur.native.capture="checkSearchLink"></mt-field>
-    </div>
+    </div> -->
     <div class="list-container"
           v-infinite-scroll="loadMore"
            infinite-scroll-disabled="loading"
