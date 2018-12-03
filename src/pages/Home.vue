@@ -1,17 +1,14 @@
 <template>
   <div class="container">
     <div class="header">
-      <mt-header fixed title="淘淘淘"></mt-header>
+      <mt-header fixed title="为您推荐1"></mt-header>
     </div>
-    <!-- <div class="search">
-      <mt-field  style="margin: 0% 10% 0% 10%;" placeholder="请在此粘贴你要分享的宝贝链接" v-model="searchValue" @blur.native.capture="checkSearchLink"></mt-field>
-    </div> -->
     <div class="list-container"
           v-infinite-scroll="loadMore"
            infinite-scroll-disabled="loading"
            infinite-scroll-distance="10">
       <div class="list">
-        <div class="product" data-clipboard-text="copyValue" @click="handleProduct(item)" v-for="item in list" v-bind:key="item.pict_url">
+        <div class="product" @click="clickItem(item)" v-for="item in list" v-bind:key="item.pict_url">
           <div class="pic">
             <img :src="item.pict_url" alt="">
           </div>
@@ -35,7 +32,7 @@
                   </div>
               </div>
               <div class="coupon-valitime redTitle">
-                {{`有效期:${item.coupon_end_time}`}}
+                <div>{{`有效期:${item.coupon_end_time}`}}</div>
               </div>
             </div>
           </div>
@@ -49,7 +46,6 @@
 <script>
 
 import TbkApi from '@/api/tbk';
-import Clipboard from 'clipboard';
 
 export default {
   data() {
@@ -57,7 +53,6 @@ export default {
       pageNumber: 0,
       loading: false,
       searchValue: '',
-      copyValue: '',
       list: [],
     };
   },
@@ -65,10 +60,14 @@ export default {
     async loadList() {
       this.loading = true;
       const params = {
-        pageNumber: this.pageNumber,
-        pageSize: 20,
+        pagenumber: this.pageNumber,
+        pagesize: 20,
       };
-      const res = await TbkApi.getRecommendList(params);
+      if (this.$route.query.q) {
+        console.log('query', this.$route.query.q);
+        params.q = this.$route.query.q;
+      }
+      const res = await TbkApi.getSearchList(params);
       this.loading = false;
       const tmpList = res.tbk_dg_item_coupon_get_response.results.tbk_coupon;
       if (tmpList && tmpList.length) {
@@ -82,20 +81,8 @@ export default {
     checkSearchLink() {
       console.log('搜索的内容是', this.searchValue);
     },
-    handleProduct(item) {
-      this.copyValue = item.coupon_click_url;
-      const clipboard = new Clipboard('.product', {
-        text: trigger => this.copyValue,
-      });
-      clipboard.on('success', (e) => {
-        window.location.href = this.copyValue;
-        clipboard.destroy();
-      });
-      clipboard.on('error', (e) => {
-        alert('该浏览器不支持自动复制');
-        window.location.href = this.copyValue;
-        clipboard.destroy();
-      });
+    clickItem(item) {
+      window.location.href = item.coupon_click_url;
     },
   },
   beforeMount() {
@@ -124,9 +111,8 @@ export default {
   }
 
   .list-container {
-    height: calc(100% - 40px - 48px);
+    height: calc(100% - 40px);
     overflow: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .list {

@@ -1,12 +1,14 @@
 import axios from 'axios';
 
 const Tbk = {
-  getRecommendList(data = {}) {
+  getSearchList(data = {}) {
     const params = Object.assign({
-      pageNumber: 1,
-      pageSize: 20,
+      pagenumber: 1,
+      pagesize: 20,
+      q: '女装',
     }, data);
-    return axios.get('tbk/recommends', { params });
+    console.log('查询', params);
+    return axios.get('/tbk/search', { params });
   },
 };
 
