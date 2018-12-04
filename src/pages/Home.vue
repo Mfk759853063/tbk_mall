@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <mt-header fixed title="为您推荐"></mt-header>
+      <mt-header fixed title="火山小店为您推荐"></mt-header>
     </div>
     <div class="list-container"
           v-infinite-scroll="loadMore"
@@ -81,8 +81,15 @@ export default {
     checkSearchLink() {
       console.log('搜索的内容是', this.searchValue);
     },
-    clickItem(item) {
-      window.location.href = item.coupon_click_url;
+    async clickItem(item) {
+      const params = {
+        link: item.coupon_click_url,
+        pic: item.pict_url,
+      };
+      const res = await TbkApi.convertTklLink(params);
+      if (res && res.data.length) {
+        window.location.href = res.data;
+      }
     },
   },
   beforeMount() {

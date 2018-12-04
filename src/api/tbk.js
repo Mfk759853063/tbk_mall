@@ -10,6 +10,13 @@ const Tbk = {
     console.log('查询', params);
     return axios.get('/tbk/search', { params });
   },
+  convertTklLink(data = {}) {
+    const params = Object.assign({
+      link: '',
+      pic: '',
+    }, data);
+    return axios.get('/tbk/converttkl', { params });
+  },
 };
 
 export default Tbk;
