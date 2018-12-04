@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <mt-header fixed title="为您推荐1"></mt-header>
+      <mt-header fixed title="为您推荐"></mt-header>
     </div>
     <div class="list-container"
           v-infinite-scroll="loadMore"
