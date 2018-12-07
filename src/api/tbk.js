@@ -23,7 +23,7 @@ const Tbk = {
     if (!params.type) {
       return axios.get('/tbk/converttkl', { params });
     } else {
-      return axios.get('/wx/convertktl/echo', { params });
+      return axios.get('/wx/converttkl/echo', { params });
     }
   },
 };
