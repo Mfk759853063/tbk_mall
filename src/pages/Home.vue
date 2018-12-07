@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <mt-header fixed title="火山小店为您推荐"></mt-header>
+      <mt-header fixed :title="title"></mt-header>
     </div>
     <div class="list-container"
           v-infinite-scroll="loadMore"
@@ -54,6 +54,7 @@ export default {
       loading: false,
       searchValue: '',
       list: [],
+      title: '火山小店为您推荐',
     };
   },
   methods: {
@@ -64,8 +65,10 @@ export default {
         pagesize: 20,
       };
       if (this.$route.query.q) {
-        console.log('query', this.$route.query.q);
         params.q = this.$route.query.q;
+      }
+      if (this.$route.query.type) {
+        params.type = this.$route.query.type;
       }
       const res = await TbkApi.getSearchList(params);
       this.loading = false;
@@ -85,7 +88,11 @@ export default {
       const params = {
         link: item.coupon_click_url,
         pic: item.pict_url,
+        couponinfo: item.coupon_info,
       };
+      if (this.$route.query.type) {
+        params.type = this.$route.query.type;
+      }
       const res = await TbkApi.convertTklLink(params);
       if (res && res.data.length) {
         window.location.href = res.data;
@@ -94,6 +101,9 @@ export default {
   },
   beforeMount() {
     // this.loadList();
+    if (this.$route.query.type) {
+      this.title = '为您推荐';
+    }
   },
 };
 </script>

@@ -8,14 +8,23 @@ const Tbk = {
       q: '女装',
     }, data);
     console.log('查询', params);
-    return axios.get('/tbk/search', { params });
+    if (!params.type) {
+      return axios.get('/tbk/search', { params });
+    } else {
+      return axios.get('/wx/searchGoods/echo', { params });
+    }
   },
   convertTklLink(data = {}) {
     const params = Object.assign({
       link: '',
       pic: '',
+      couponinfo: '暂无优惠券',
     }, data);
-    return axios.get('/tbk/converttkl', { params });
+    if (!params.type) {
+      return axios.get('/tbk/converttkl', { params });
+    } else {
+      return axios.get('/wx/convertktl/echo', { params });
+    }
   },
 };
 
